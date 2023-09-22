@@ -9,12 +9,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyDemoLoggingAspect {
     
-    @Pointcut("execution(public void addAccount())")
-    public void forAddAccountMethod() {
-    }
+    @Pointcut("execution(* com.elkady.aopdemo.dao.*.*(..))")
+    public void forDaoPackage() {}
+
+    @Pointcut("execution(* com.elkady.aopdemo.dao.*.get*(..))")
+    private void getter() {}
     
-    @Before("forAddAccountMethod()")
-    public void  beforeAddAccountAdvice() {
-        System.out.println("===> bfore add account");
+    @Pointcut("forDaoPackage() && !(getter())")
+    private void forDaoPackageNoGetter() {}
+
+    @Before("forDaoPackageNoGetter()")
+    public void  beforeDaoMethoddvice() {
+        System.out.println("===> before Method");
     }
 }
