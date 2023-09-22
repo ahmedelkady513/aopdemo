@@ -13,7 +13,7 @@ public class MyDemoLoggingAspect {
     public void forAddAccountMethod() {
     }
     
-    @Before("forAddAccountMethod")
+    @Before("forAddAccountMethod()")
     public void  beforeAddAccountAdvice() {
         System.out.println("===> bfore add account");
     }
