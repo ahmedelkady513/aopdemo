@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 public class AccountDAOImpl implements AccountDAO {
     private String username = "Ahmed";
     @Override
-    public void addAccount() {
+    public void addAccount(Boolean test) {
         System.out.println(getClass() + ": DOING MY DB WORK: ADDING AN ACCOUNT");
     }
 

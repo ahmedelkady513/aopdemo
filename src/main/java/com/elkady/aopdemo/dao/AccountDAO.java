@@ -2,6 +2,6 @@ package com.elkady.aopdemo.dao;
 
 public interface AccountDAO {
     
-    void addAccount();
+    void addAccount(Boolean test);
     String getUsername();
 }
