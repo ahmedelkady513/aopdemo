@@ -1,16 +1,33 @@
 package com.elkady.aopdemo.aspect;
 
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.elkady.aopdemo.Account;
 
 @Aspect
 @Component
+@Order(1)
 public class MyDemoLoggingAspect {
     
+    @AfterReturning(
+        pointcut = "execution(* com.elkady.aopdemo.dao.AccountDAO.findAccounts(..))",
+        returning = "result")
+    public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result) {
+        String method = theJoinPoint.getSignature().toString();
+        System.out.println("\n=====>>> Executing @AfterReturn on method " + method);
+        System.out.println("\n=====>>> Executing result is: " + result);
+
+    }
+
     @Pointcut("execution(* com.elkady.aopdemo.dao.*.*(..))")
     public void forDaoPackage() {}
 
