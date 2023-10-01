@@ -9,4 +9,5 @@ public interface AccountDAO {
     void addAccount(Boolean test);
     String getUsername();
     List<Account> findAccounts();
+    List<Account> findAccounts(boolean tripWire);
 }

@@ -10,6 +10,7 @@ import com.elkady.aopdemo.Account;
 @Repository
 public class AccountDAOImpl implements AccountDAO {
     private String username = "Ahmed";
+
     @Override
     public void addAccount(Boolean test) {
         System.out.println(getClass() + ": DOING MY DB WORK: ADDING AN ACCOUNT");
@@ -22,17 +23,26 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public List<Account> findAccounts() {
+        return findAccounts(false);
+    }
+
+    @Override
+    public List<Account> findAccounts(boolean tripWire) {
+
+        if(tripWire) {
+            throw new RuntimeException("No Accounts");
+        }
+
+
         List<Account> accounts = new ArrayList<>();
 
-        Account temp = new Account("Ahmed","silver");
-        Account temp2 = new Account("Mohamed","Gold");
+        Account temp = new Account("Ahmed", "silver");
+        Account temp2 = new Account("Mohamed", "Gold");
 
         accounts.add(temp);
         accounts.add(temp2);
-        
+
         return accounts;
     }
 
-
-    
 }

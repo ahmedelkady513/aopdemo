@@ -19,14 +19,39 @@ public class AopdemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO) {
 		return runner -> {
-			//demoTheBeforeAdvice(theAccountDAO);
-			demoTheAfterReturningAdvice(theAccountDAO);
+			// demoTheBeforeAdvice(theAccountDAO);
+			// demoTheAfterReturningAdvice(theAccountDAO);
+
+			demoTheAfterThrowingAdvice(theAccountDAO);
 		};
+	}
+
+	private void demoTheAfterThrowingAdvice(AccountDAO theAccountDAO) {
+
+
+		List<Account> accounts = null;
+
+		try {
+
+			// add a boolean flag to simulate exceptions
+			boolean tripWire = true;
+			accounts = theAccountDAO.findAccounts(tripWire);
+		}
+		catch (Exception ex) {
+			System.out.println("\n\nMain Program: .. caught Exception: " + ex);
+		}
+
+
+		System.out.println("\n\nMain Program:  demoTheAfterThrowingAdvice");
+		System.out.println("----");
+
+		System.out.println(accounts);
+
+		System.out.println("\n");
 	}
 
 	private void demoTheAfterReturningAdvice(AccountDAO theAccountDAO) {
 		List<Account> accounts = theAccountDAO.findAccounts();
-
 
 		System.out.println("\n\nMain Program:  demoTheAfterReturningAdvice");
 		System.out.println("----");

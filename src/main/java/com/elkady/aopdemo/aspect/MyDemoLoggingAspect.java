@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -17,10 +18,16 @@ import com.elkady.aopdemo.Account;
 @Component
 @Order(1)
 public class MyDemoLoggingAspect {
-    
-    @AfterReturning(
-        pointcut = "execution(* com.elkady.aopdemo.dao.AccountDAO.findAccounts(..))",
-        returning = "result")
+
+    @AfterThrowing(pointcut = "execution(* com.elkady.aopdemo.dao.AccountDAO.findAccounts(..))", throwing = "theExc")
+    public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable theExc) {
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @AfterThrowing on method " + method);
+        System.out.println("\n=====>>> The Exception is: " + theExc);
+
+    }
+
+    @AfterReturning(pointcut = "execution(* com.elkady.aopdemo.dao.AccountDAO.findAccounts(..))", returning = "result")
     public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result) {
         String method = theJoinPoint.getSignature().toString();
         System.out.println("\n=====>>> Executing @AfterReturn on method " + method);
@@ -29,16 +36,19 @@ public class MyDemoLoggingAspect {
     }
 
     @Pointcut("execution(* com.elkady.aopdemo.dao.*.*(..))")
-    public void forDaoPackage() {}
+    public void forDaoPackage() {
+    }
 
     @Pointcut("execution(* com.elkady.aopdemo.dao.*.get*(..))")
-    private void getter() {}
-    
+    private void getter() {
+    }
+
     @Pointcut("forDaoPackage() && !(getter())")
-    private void forDaoPackageNoGetter() {}
+    private void forDaoPackageNoGetter() {
+    }
 
     @Before("forDaoPackageNoGetter()")
-    public void  beforeDaoMethoddvice(JoinPoint theJoinPoint) {
+    public void beforeDaoMethoddvice(JoinPoint theJoinPoint) {
         System.out.println("===> before Method");
 
         MethodSignature methodSignature = (MethodSignature) theJoinPoint.getSignature();
@@ -47,14 +57,14 @@ public class MyDemoLoggingAspect {
 
         Object[] args = theJoinPoint.getArgs();
 
-        for(Object tempArg : args) {
-             System.out.println(tempArg);
+        for (Object tempArg : args) {
+            System.out.println(tempArg);
 
-             if(tempArg instanceof Boolean) {
+            if (tempArg instanceof Boolean) {
                 boolean test = (Boolean) tempArg;
 
-                System.out.println("boolean value " + tempArg);
-             }
+                System.out.println("boolean value :" + tempArg);
+            }
         }
 
     }
