@@ -3,6 +3,7 @@ package com.elkady.aopdemo.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,10 +20,16 @@ import com.elkady.aopdemo.Account;
 @Order(1)
 public class MyDemoLoggingAspect {
 
+    @After("execution(* com.elkady.aopdemo.dao.AccountDAO.findAccounts(..))")
+    public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @After (Finally) on method: " + method);
+    }
+
     @AfterThrowing(pointcut = "execution(* com.elkady.aopdemo.dao.AccountDAO.findAccounts(..))", throwing = "theExc")
     public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable theExc) {
         String method = theJoinPoint.getSignature().toShortString();
-        System.out.println("\n=====>>> Executing @AfterThrowing on method " + method);
+        System.out.println("\n=====>>> Executing @AfterThrowing on method: " + method);
         System.out.println("\n=====>>> The Exception is: " + theExc);
 
     }
