@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.elkady.aopdemo.dao.AccountDAO;
+import com.elkady.aopdemo.service.TrafficFortuneService;
 
 @SpringBootApplication
 public class AopdemoApplication {
@@ -17,14 +18,28 @@ public class AopdemoApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO) {
+	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO,
+			TrafficFortuneService thTrafficFortuneService) {
 		return runner -> {
 			// demoTheBeforeAdvice(theAccountDAO);
 			// demoTheAfterReturningAdvice(theAccountDAO);
 			// demoTheAfterThrowingAdvice(theAccountDAO);
+			// demotheAfterAdvice(theAccountDAO);
 
-			demotheAfterAdvice(theAccountDAO);
+			demoTheAroundAdvice(thTrafficFortuneService);
 		};
+	}
+
+	private void demoTheAroundAdvice(TrafficFortuneService theTrafficFortuneService) {
+		System.out.println("\nMain Program: demotheAroundAdvice");
+
+		System.out.println("\nCalling getFortune()");
+
+		String data = theTrafficFortuneService.getFortune();
+
+		System.out.println("\nMy Fortune is: " + data);
+
+		System.out.println("Finished");
 	}
 
 	private void demotheAfterAdvice(AccountDAO theAccountDAO) {
