@@ -19,16 +19,31 @@ public class AopdemoApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO,
-			TrafficFortuneService thTrafficFortuneService) {
+			TrafficFortuneService theTrafficFortuneService) {
 		return runner -> {
 			// demoTheBeforeAdvice(theAccountDAO);
 			// demoTheAfterReturningAdvice(theAccountDAO);
 			// demoTheAfterThrowingAdvice(theAccountDAO);
 			// demotheAfterAdvice(theAccountDAO);
 			// demoTheAroundAdvice(thTrafficFortuneService);
+			// demoTheAroundAdviceHandleException(theTrafficFortuneService);
 
-			demoTheAroundAdviceHandleException(thTrafficFortuneService);
+			demotheAroundAdviceRethrowException(theTrafficFortuneService);
 		};
+	}
+
+	private void demotheAroundAdviceRethrowException(TrafficFortuneService theTrafficFortuneService) {
+		
+		System.out.println("\nMain Program: demotheAroundAdviceRethrowException");
+
+		System.out.println("\nCalling getFortune()");
+
+		boolean tripWire = true;
+		String data = theTrafficFortuneService.getFortune(tripWire);
+
+		System.out.println("\nMy Fortune is: " + data);
+
+		System.out.println("Finished");
 	}
 
 	private void demoTheAroundAdviceHandleException(TrafficFortuneService theTrafficFortuneService) {

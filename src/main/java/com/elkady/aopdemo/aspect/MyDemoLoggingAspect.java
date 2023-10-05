@@ -38,7 +38,8 @@ public class MyDemoLoggingAspect {
             result = theProceedingJoinPoint.proceed();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            result = "Bad Traffic";
+
+            throw ex;
         }
         // get end time
         long end = System.currentTimeMillis();
