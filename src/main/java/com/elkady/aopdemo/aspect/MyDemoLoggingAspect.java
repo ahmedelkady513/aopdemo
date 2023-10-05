@@ -33,8 +33,13 @@ public class MyDemoLoggingAspect {
         long begin = System.currentTimeMillis();
 
         // execute the method
-        Object result = theProceedingJoinPoint.proceed();
-
+        Object result = null;
+        try {
+            result = theProceedingJoinPoint.proceed();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            result = "Bad Traffic";
+        }
         // get end time
         long end = System.currentTimeMillis();
 
